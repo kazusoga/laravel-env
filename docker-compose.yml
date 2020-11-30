@@ -1,0 +1,35 @@
+version: '3'
+services:
+  php:
+    build: ./php
+    volumes:
+      - ./wanted:/var/www/html
+      - ./php/php.ini:/usr/local/etc/php/php.ini
+      - ./apache/000-default.conf:/etc/apache2/sites-available/000-default.conf
+    # ports:
+    #   - 8888:80
+    # depends_on:
+    #   - mysql
+    expose:
+      - '80'
+    environment:
+      - VIRTUAL_HOST=wanted.localhost
+    networks:
+      - common
+    restart: always
+
+networks:
+  common:
+    external: true
+
+  # mysql:
+  #   image: mysql:5.7
+  #   volumes:
+  #     - ./mysql:/var/lib/mysql
+  #   ports:
+  #     - 33306:3306
+  #   environment:
+  #     - MYSQL_ROOT_PASSWORD=root
+  #     - MYSQL_DATABASE=laravel
+  #     - MYSQL_USER=test
+  #     - MYSQL_PASSWORD=test
